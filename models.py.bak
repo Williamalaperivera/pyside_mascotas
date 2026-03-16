@@ -1,0 +1,28 @@
+from sqlalchemy import Column, Integer, String, Date, Text
+from database import Base, engine
+from datetime import date
+
+class Mascota(Base):
+    __tablename__ = "mascotas"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nombre = Column(String(50), nullable=False)
+    especie = Column(String(30), nullable=False)
+    raza = Column(String(50))
+    edad = Column(Integer)
+    fecha_ingreso = Column(Date, default=date.today)
+    descripcion = Column(Text)
+
+    def __repr__(self):
+        return f"<Mascota(nombre='{self.nombre}', especie='{self.especie}')>"
+
+# Crear tablas
+def crear_tablas():
+    try:
+        Base.metadata.create_all(engine)
+        print("✅ Tabla 'mascotas' creada (o ya existía) correctamente.")
+    except Exception as e:
+        print(f"❌ Error al crear la tabla: {e}")
+
+if __name__ == "__main__":
+    crear_tablas()
